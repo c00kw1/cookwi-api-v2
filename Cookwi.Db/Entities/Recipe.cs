@@ -25,10 +25,10 @@ namespace Cookwi.Db.Entities
         [Column("tags")]
         public List<string> Tags { get; set; }
 
-        [Column("steps")]
+        [Column("steps", TypeName = "json")]
         public List<RecipeStep> Steps { get; set; }
 
-        [Column("ingredients")]
+        [Column("ingredients", TypeName = "json")]
         public List<RecipeIngredient> Ingredients { get; set; }
 
         // EF

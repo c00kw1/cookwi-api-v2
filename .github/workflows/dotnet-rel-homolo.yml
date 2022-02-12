@@ -1,0 +1,32 @@
+name: Release homologation
+
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build (release)
+      run: dotnet build --no-restore --configuration Release
+    - name : Publish
+      run: dotnet publish -c Release -o cookwi-api-bin
+    - name: Docker build and push
+      uses: mr-smithers-excellent/docker-build-push@v5.6
+      with:
+        image: cookwi-api-homologation
+        registry: rg.fr-par.scw.cloud/cookwi-homologation-api
+        username: nologin
+        password: ${{ secrets.SCW_DOCKER_PWD }}
+    #- name: Setup Scaleway CLI
+    #  uses: jawher/action-scw@v2.3.1

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 
 ARG path_to_binaries="./cookwi-api-bin"
 ARG environment="Homologation"

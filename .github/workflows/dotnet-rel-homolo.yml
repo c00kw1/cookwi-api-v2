@@ -28,5 +28,6 @@ jobs:
           registry: rg.fr-par.scw.cloud/cookwi-homologation-api
           username: nologin
           password: ${{ secrets.SCW_DOCKER_PWD }}
+          addLatest: true
     #- name: Setup Scaleway CLI
     #  uses: jawher/action-scw@v2.3.1

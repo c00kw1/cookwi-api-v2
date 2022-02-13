@@ -70,7 +70,8 @@ namespace Cookwi.Common
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // postgresql
-            services.AddDbContext<CookwiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("CookwiContext")));
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? Configuration.GetConnectionString("CookwiContext");
+            services.AddDbContext<CookwiContext>(options => options.UseNpgsql(connectionString));
 
             // configure DI for application services
             services.AddScoped<IAccountService, AccountService>();

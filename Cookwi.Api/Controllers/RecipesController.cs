@@ -119,11 +119,11 @@ namespace Cookwi.Api.Controllers
         /// <summary>
         /// Add/update an image cover for a recipe
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="recipeId"></param>
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("{id}/image")]
+        [Route("{recipeId}/image")]
         [RequestSizeLimit(10_485_760)] // 10 Mb
         [SwaggerOperation("Adds an image to a recipe")]
         [SwaggerResponse(200, "Image added")]
@@ -131,14 +131,14 @@ namespace Cookwi.Api.Controllers
         [SwaggerResponse(404, "Recipe not found")]
         [SwaggerResponse(413, "File too large")]
         [SwaggerResponse(500, "An error occured with the server (s3 ?)")]
-        public IActionResult AddImage(int id, IFormFile file)
+        public IActionResult AddImage(int recipeId, IFormFile file)
         {
             if (file == null)
             {
                 throw new BadRequestException("No image sent");
             }
 
-            _service.UpdateCover(id, Account.Id, file);
+            _service.UpdateCover(recipeId, Account.Id, file);
 
             return NoContent();
         }

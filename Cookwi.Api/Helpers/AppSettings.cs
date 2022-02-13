@@ -1,27 +1,47 @@
-﻿namespace Cookwi.Api.Helpers
+﻿using System;
+
+namespace Cookwi.Api.Helpers
 {
     public class AppSettings
     {
-        #region Security
+        public SecuritySettings Security { get; set; }
 
-        public string Secret { get; set; }
-        // refresh token time to live (in days), inactive tokens are
-        // automatically deleted from the database after this time
-        public int RefreshTokenTTL { get; set; }
+        public S3Settings S3 { get; set; }
 
-        #endregion
+        public MailSettings Mail { get; set; }
 
-        #region Mails
+    }
 
+    public class SecuritySettings
+    {
+        public string JwtSecret
+        {
+            get => Environment.GetEnvironmentVariable("API_JWT_SECRET") ?? _jwtSecret;
+            set { _jwtSecret = Environment.GetEnvironmentVariable("API_JWT_SECRET") ?? value; }
+        }
+        public string _jwtSecret;
+        public int JwtTTL { get; set; }
+    }
+
+    public class S3Settings
+    {
+        public string Bucket { get; set; }
+        public string Region { get; set; }
+        public string Endpoint { get; set; }
+    }
+
+    public class MailSettings
+    {
         public string EmailFrom { get; set; }
         public string SmtpHost { get; set; }
         public int SmtpPort { get; set; }
         public string SmtpUser { get; set; }
-        public string SmtpPass { get; set; }
+        public string SmtpPass
+        {
+            get => Environment.GetEnvironmentVariable("MAIL_SMTP_PWD") ?? _smtpPass;
+            set { _smtpPass = Environment.GetEnvironmentVariable("MAIL_SMTP_PWD") ?? value; }
+        }
 
-        #endregion
-
-        public string S3Bucket { get; set; }
-        public string S3Region { get; set; }
+        private string _smtpPass;
     }
 }

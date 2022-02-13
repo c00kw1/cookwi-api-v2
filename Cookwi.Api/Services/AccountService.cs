@@ -31,7 +31,7 @@ namespace Cookwi.Api.Services
         void ResetPassword(ResetPasswordRequest model);
         IEnumerable<AccountResponse> GetAll();
         AccountResponse GetById(int id);
-        AccountResponse Create(CreateRequest model);
+        AccountResponse Create(CreateAccountRequest model);
         AccountResponse Update(int id, UpdateRequest model);
         void Delete(int id);
     }
@@ -119,6 +119,7 @@ namespace Cookwi.Api.Services
 
         public void Register(RegisterRequest model, string origin)
         {
+            _ctx.Database.EnsureCreated();
             // validate
             if (_ctx.Accounts.FirstOrDefault(a => a.Email == model.Email) != null)
             {
@@ -222,7 +223,7 @@ namespace Cookwi.Api.Services
             return _mapper.Map<AccountResponse>(account);
         }
 
-        public AccountResponse Create(CreateRequest model)
+        public AccountResponse Create(CreateAccountRequest model)
         {
             // validate
             if (getAccount(model.Email) != null)
@@ -322,7 +323,7 @@ namespace Cookwi.Api.Services
         private string generateJwtToken(Account account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_appSettings.Security.JwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", account.Id.ToString()) }),
@@ -347,7 +348,7 @@ namespace Cookwi.Api.Services
 
         private void removeOldRefreshTokens(Account account)
         {
-            var refreshTokens = account.RefreshTokens.Where(x => !x.IsActive && x.Created.AddDays(_appSettings.RefreshTokenTTL) <= DateTime.UtcNow);
+            var refreshTokens = account.RefreshTokens.Where(x => !x.IsActive && x.Created.AddDays(_appSettings.Security.JwtTTL) <= DateTime.UtcNow);
             _ctx.RefreshTokens.RemoveRange(refreshTokens);
         }
 

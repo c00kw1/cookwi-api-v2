@@ -24,7 +24,7 @@ namespace Cookwi.Api.Helpers
             var ok = true;
             foreach (var role in _roles)
             {
-                ok = account.Roles.Contains(role);
+                ok = account != null && account.Roles.Contains(role);
             }
 
             if (account == null || !ok)

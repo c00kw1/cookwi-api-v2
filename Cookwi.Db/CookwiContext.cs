@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cookwi.Common.Models;
 using Cookwi.Db.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -67,10 +66,7 @@ namespace Cookwi.Db
 
             builder.Entity<Account>()
                 .Property(a => a.Roles)
-                .HasConversion(
-                    r => r.Select(e => e.ToString()).ToArray(),
-                    r => r.Select(e => (Role)Enum.Parse(typeof(Role), e)).ToList()
-                );
+                .HasPostgresArrayConversion(g => g.ToString(), g => (Role)Enum.Parse(typeof(Role), g));
 
             #endregion
 

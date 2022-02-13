@@ -3,7 +3,7 @@ using Cookwi.Common.Models;
 
 namespace Cookwi.Api.Models.Accounts
 {
-    public class CreateRequest
+    public class CreateAccountRequest
     {
         [Required]
         public string Title { get; set; }
@@ -15,8 +15,7 @@ namespace Cookwi.Api.Models.Accounts
         public string LastName { get; set; }
 
         [Required]
-        [EnumDataType(typeof(Role[]))]
-        public string[] Roles { get; set; }
+        public Role[] Roles { get; set; }
 
         [Required]
         [EmailAddress]

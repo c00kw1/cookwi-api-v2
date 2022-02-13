@@ -129,7 +129,7 @@ namespace Cookwi.Api.Controllers
 
         [Authorize(Role.Admin)]
         [HttpPost]
-        public ActionResult<AccountResponse> Create(CreateRequest model)
+        public ActionResult<AccountResponse> Create(CreateAccountRequest model)
         {
             var account = _accountService.Create(model);
 

@@ -25,15 +25,15 @@ namespace Cookwi.Api.Services
         {
             // create message
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(from ?? _appSettings.EmailFrom));
+            email.From.Add(MailboxAddress.Parse(from ?? _appSettings.Mail.EmailFrom));
             email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
             email.Body = new TextPart(TextFormat.Html) { Text = html };
 
             // send email
             using var smtp = new SmtpClient();
-            smtp.Connect(_appSettings.SmtpHost, _appSettings.SmtpPort, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_appSettings.SmtpUser, _appSettings.SmtpPass);
+            smtp.Connect(_appSettings.Mail.SmtpHost, _appSettings.Mail.SmtpPort, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_appSettings.Mail.SmtpUser, _appSettings.Mail.SmtpPass);
             smtp.Send(email);
             smtp.Disconnect(true);
         }

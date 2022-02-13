@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Cookwi.Api.Models.Accounts;
 using Cookwi.Api.Models.Recipes;
 using Cookwi.Api.Models.Tribes;
@@ -17,7 +16,7 @@ namespace Cookwi.Api.Helpers
             CreateMap<Account, AccountResponse>();
             CreateMap<Account, AuthenticateResponse>();
             CreateMap<RegisterRequest, Account>();
-            CreateMap<CreateRequest, Account>();
+            CreateMap<CreateAccountRequest, Account>();
             CreateMap<UpdateRequest, Account>()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>

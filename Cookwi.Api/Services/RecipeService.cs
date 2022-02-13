@@ -130,13 +130,13 @@ namespace Cookwi.Api.Services
                 var imageInternalPathS3 = $"recipes/{recipeId}/cover{Path.GetExtension(file.FileName)}";
                 _transferUtility.Upload(new TransferUtilityUploadRequest
                 {
-                    BucketName = _appSettings.S3Bucket,
+                    BucketName = _appSettings.S3.Bucket,
                     ContentType = file.ContentType,
                     Key = imageInternalPathS3,
                     InputStream = stream
                 });
                 
-                var url = $"https://s3.{_appSettings.S3Region}.amazonaws.com/{_appSettings.S3Bucket}/{imageInternalPathS3}";
+                var url = $"https://{_appSettings.S3.Bucket}.s3.{_appSettings.S3.Region}.scw.cloud/{_appSettings.S3.Bucket}/{imageInternalPathS3}";
                 _ctx.Recipes.Update(recipe);
                 recipe.ImagePath = url;
                 _ctx.SaveChanges();

@@ -16,7 +16,7 @@ namespace Cookwi.Db.Entities
 
         protected DbEntity()
         {
-            Created = DateTime.Now;
+            Created = DateTime.Now.ToUniversalTime();
             Updated = null;
         }
     }

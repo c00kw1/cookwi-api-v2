@@ -16,7 +16,7 @@ namespace Cookwi.Common
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.AddLog4Net("log4net.config");
+                    logging.AddLog4Net("log4net.config", true);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
